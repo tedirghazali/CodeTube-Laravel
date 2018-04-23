@@ -112,4 +112,10 @@ class PostController extends Controller
         $red = redirect('posts');
         return $red;
     }
+
+    public function deleteAll(Request $request){
+        $ids = $request->get('ids');
+        $dbs = DB::delete('delete from posts where id in ('.implode(",",$ids).')');
+        return redirect('posts');
+    }
 }

@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<title>CRUD Laravel 5.6</title>
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
+	<script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
 </head>
 <body>
 

@@ -25,10 +25,14 @@
 		<a href="{{ action('PostController@create') }}" class="btn btn-primary">Add Data</a>
 	</div>
 </div>
+<form method="post">
+	@csrf
+	@method('DELETE')
+	<button formaction="/deleteall" type="submit" class="btn btn-danger">Delete All Selected</button>
 <table class="table table-bordered">
 	<thead>
 		<tr>
-			<th>No</th>
+			<th><input type="checkbox" class="selectall"></th>
 			<th>Name</th>
 			<th>Detail</th>
 			<th>Author</th>
@@ -38,23 +42,51 @@
 	<tbody>
 		@foreach($posts as $post)
 		<tr>
-			<td>{{ $post->id }}</td>
+			<td><input type="checkbox" name="ids[]" class="selectbox" value="{{ $post->id }}"></td>
 			<td>{{ $post->name }}</td>
 			<td>{{ $post->detail }}</td>
 			<td>{{ $post->author }}</td>
 			<td>
-				<form action="{{ action('PostController@destroy', $post->id) }}" method="post">
-					<a href="{{ action('PostController@show', $post->id) }}" class="btn btn-info">Show</a>
+				<a href="{{ action('PostController@show', $post->id) }}" class="btn btn-info">Show</a>
 					<a href="{{ action('PostController@edit', $post->id) }}" class="btn btn-warning">Edit</a>
-					@csrf
-					@method('DELETE')
-					<button type="submit" class="btn btn-danger">Delete</button>
-				</form>
+					<button formaction="{{ action('PostController@destroy', $post->id) }}" type="submit" class="btn btn-danger">Delete</button>
 			</td>
 		</tr>
 		@endforeach
 	</tbody>
+	<tfoot>
+		<tr>
+			<th><input type="checkbox" class="selectall2"></th>
+			<th>Name</th>
+			<th>Detail</th>
+			<th>Author</th>
+			<th width="230">Action</th>
+		</tr>
+	</tfoot>
 </table>
+</form>
 {{ $posts->links() }}
+
+<script type="text/javascript">
+	$('.selectall').click(function(){
+		$('.selectbox').prop('checked', $(this).prop('checked'));
+		$('.selectall2').prop('checked', $(this).prop('checked'));
+	})
+	$('.selectall2').click(function(){
+		$('.selectbox').prop('checked', $(this).prop('checked'));
+		$('.selectall').prop('checked', $(this).prop('checked'));
+	})
+	$('.selectbox').change(function(){
+		var total = $('.selectbox').length;
+		var number = $('.selectbox:checked').length;
+		if(total == number){
+			$('.selectall').prop('checked', true);
+			$('.selectall2').prop('checked', true);
+		} else{
+			$('.selectall').prop('checked', false);
+			$('.selectall2').prop('checked', false);
+		}
+	})
+</script>
 
 @endsection
