@@ -43,6 +43,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'detail' => 'required',
+            'author' => 'required'
+        ]);
         $name = $request->get('name');
         $detail = $request->get('detail');
         $author = $request->get('author');
@@ -88,6 +93,13 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $request->validate([
+            'name' => 'required',
+            'detail' => 'required',
+            'author' => 'required'
+        ]);
+        
         $name = $request->get('name');
         $detail = $request->get('detail');
         $author = $request->get('author');
