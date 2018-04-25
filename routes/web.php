@@ -14,4 +14,6 @@
 Route::get('/', 'PostController@index');
 Route::get('/search','PostController@search');
 Route::delete('/deleteall','PostController@deleteAll');
+Route::get('/crud','CrudController@create');
 Route::resource('posts','PostController');
+Route::resource('cruds','CrudController');
