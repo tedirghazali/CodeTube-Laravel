@@ -1,7 +1,8 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
 
+<div class="container">
 @if ($message = Session::get('success'))
 	<div class="alert alert-success">
 		<p>{{ $message }}</p>
@@ -88,5 +89,5 @@
 		}
 	})
 </script>
-
+</div>
 @endsection

@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>Ajax CRUD Laravel</title>
-	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
-	<script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('js/jquery.dataTables.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('js/dataTables.bootstrap4.js') }}" type="text/javascript"></script>
-</head>
-<body>
-
+@extends('layouts.app')
+@section('content')
 	<div class="container">
 		<p>
 			<h1>Ajax CRUD Laravel</h1>
@@ -165,5 +153,4 @@
 			})
 		}
 	</script>
-</body>
-</html>
+@endsection

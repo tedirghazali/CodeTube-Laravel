@@ -1,5 +1,6 @@
-@extends('layout')
+@extends('layouts.app')
 @section('content')
+<div class="container">
 <div class="row">
 	<div class="col-md-6 offset-md-3">
 		@if($errors->any())
@@ -28,5 +29,6 @@
 			<button class="btn btn-primary" type="submit">Submit</button>
 		</form>
 	</div>
+</div>
 </div>
 @endsection
