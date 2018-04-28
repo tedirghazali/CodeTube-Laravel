@@ -21,3 +21,4 @@ Route::resource('cruds','CrudController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/verification/{token}','Auth\RegisterController@verification');
