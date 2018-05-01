@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `files`
+--
+
+DROP TABLE IF EXISTS `files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `files`
+--
+
+LOCK TABLES `files` WRITE;
+/*!40000 ALTER TABLE `files` DISABLE KEYS */;
+INSERT INTO `files` VALUES (1,'snowy-mountain-road-wallpaper-1366x768.jpg','','public/storage/Il6suW58bz9fflrhri3XgAfAZywqfCWmnrrS24Ub.jpeg','2018-04-30 20:13:00','2018-04-30 20:13:00'),(2,'tumblr_static_tumblr_static_2gcbffjkh50k80wowwogs8osc_640.jpg','','public/storage/y1K0kBszEXeXi8e9DSALT3mvXtpDcSbWMPKksKML.jpeg','2018-04-30 20:13:19','2018-04-30 20:13:19'),(3,'Red-Flower-Garden-Wallpapers.jpg','','public/storage/zC1sOboYrKfyPBShbwPiV14sHjit3RUR3SthMNo8.jpeg','2018-04-30 20:13:36','2018-04-30 20:13:36'),(4,'unta.jpg','','public/storage/Yqp7J0v1jYxKgwNVcw66huKj50nccDjyLLPjnCD8.jpeg','2018-04-30 20:16:12','2018-04-30 20:16:12');
+/*!40000 ALTER TABLE `files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -27,7 +55,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +64,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (4,'2014_10_12_000000_create_users_table',1),(5,'2014_10_12_100000_create_password_resets_table',1),(6,'2018_04_18_035846_create_posts_table',1),(7,'2018_04_28_052118_create_verifications_table',1);
+INSERT INTO `migrations` VALUES (8,'2014_10_12_000000_create_users_table',1),(9,'2014_10_12_100000_create_password_resets_table',1),(10,'2018_04_18_035846_create_posts_table',1),(11,'2018_04_28_052118_create_verifications_table',1),(12,'2018_05_01_022702_create_files_table',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +137,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +146,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (15,'Tedir Ghazali','myteukughazali@gmail.com','$2y$10$8ZZy.kkChhV1rwCDrUdWiuUI9BvnMmDzz41nTj8sJCHiCFerhkLgC',1,'kRp2Nqg0pNUrx0j2ETfzpPVeOQKBQdSDe2ViGEVzJlWR2dqYcxQTeNiXRIxY','2018-04-28 00:29:35','2018-04-28 00:29:52');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +163,7 @@ CREATE TABLE `verifications` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `verifications_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +172,6 @@ CREATE TABLE `verifications` (
 
 LOCK TABLES `verifications` WRITE;
 /*!40000 ALTER TABLE `verifications` DISABLE KEYS */;
-INSERT INTO `verifications` VALUES (15,'SfQsghDIO5clxWaWZru5EMshOiYzWwnXxhzi1VVy','2018-04-28 00:29:35','2018-04-28 00:29:35');
 /*!40000 ALTER TABLE `verifications` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -158,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-28 14:32:59
+-- Dump completed on 2018-05-01 10:17:26

@@ -39,7 +39,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @guest
-
+                        <li><a class="nav-link" href="{{ route('viewfile') }}">File</a></li>
                         @else
                         <li><a class="nav-link" href="{{ route('post') }}">CRUD</a></li>
                         <li><a class="nav-link" href="{{ route('ajax') }}">Ajax</a></li>
