@@ -23,6 +23,9 @@
     <script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/jquery.dataTables.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.js') }}" type="text/javascript"></script>
+
+    <link href="{{ asset('css/dropzone.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/dropzone.js') }}"></script>
 </head>
 <body>
     <div id="app">
