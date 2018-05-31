@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: blogdb
 -- ------------------------------------------------------
--- Server version	5.7.21-log
+-- Server version	5.7.22-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `files` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,6 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (1,'snowy-mountain-road-wallpaper-1366x768.jpg','','public/storage/Il6suW58bz9fflrhri3XgAfAZywqfCWmnrrS24Ub.jpeg','2018-04-30 20:13:00','2018-04-30 20:13:00'),(2,'tumblr_static_tumblr_static_2gcbffjkh50k80wowwogs8osc_640.jpg','','public/storage/y1K0kBszEXeXi8e9DSALT3mvXtpDcSbWMPKksKML.jpeg','2018-04-30 20:13:19','2018-04-30 20:13:19'),(3,'Red-Flower-Garden-Wallpapers.jpg','','public/storage/zC1sOboYrKfyPBShbwPiV14sHjit3RUR3SthMNo8.jpeg','2018-04-30 20:13:36','2018-04-30 20:13:36'),(4,'unta.jpg','','public/storage/Yqp7J0v1jYxKgwNVcw66huKj50nccDjyLLPjnCD8.jpeg','2018-04-30 20:16:12','2018-04-30 20:16:12');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +54,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +63,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (8,'2014_10_12_000000_create_users_table',1),(9,'2014_10_12_100000_create_password_resets_table',1),(10,'2018_04_18_035846_create_posts_table',1),(11,'2018_04_28_052118_create_verifications_table',1),(12,'2018_05_01_022702_create_files_table',1);
+INSERT INTO `migrations` VALUES (13,'2014_10_12_000000_create_users_table',1),(14,'2014_10_12_100000_create_password_resets_table',1),(15,'2018_04_18_035846_create_posts_table',1),(16,'2018_04_28_052118_create_verifications_table',1),(17,'2018_05_01_022702_create_files_table',1),(18,'2018_05_30_015009_create_social_accounts_table',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,6 +119,33 @@ LOCK TABLES `posts` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `social_accounts`
+--
+
+DROP TABLE IF EXISTS `social_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `social_accounts` (
+  `user_id` int(11) NOT NULL,
+  `provider_user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`provider_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `social_accounts`
+--
+
+LOCK TABLES `social_accounts` WRITE;
+/*!40000 ALTER TABLE `social_accounts` DISABLE KEYS */;
+INSERT INTO `social_accounts` VALUES (1,'104175683810008','facebook','2018-05-29 19:16:40','2018-05-29 19:16:40'),(4,'1192030934','twitter','2018-05-30 19:41:42','2018-05-30 19:41:42'),(5,'114156962871902985297','google','2018-05-30 19:42:12','2018-05-30 19:42:12');
+/*!40000 ALTER TABLE `social_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -129,7 +155,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT '0',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -137,7 +163,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,6 +172,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Tedir Ghazali','tedir_snkhivn_ghazali@tfbnw.net','',0,'1CuqDJomaBvljp4VUPco11C7bBsy9AqB6DI2lVUnhnAhrJ9DYP2q0BSVHyIc','2018-05-29 19:11:20','2018-05-29 19:11:20'),(4,'T Ghazali',NULL,'',0,'mizPTKpjUtncyxPKXyBmdjsiap9OmabqrzMLjv2ZT4pa8YM6GiQWXpP0fyAK','2018-05-30 19:41:42','2018-05-30 19:41:42'),(5,'Ice Work','myicework@gmail.com','',0,'AfW4INBXaLDy4xnwfAolDxeBPaEgYHnmDPMJ8OKZtqq6fz9gtshDp0uxIstW','2018-05-30 19:42:12','2018-05-30 19:42:12');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,4 +211,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-01 10:17:26
+-- Dump completed on 2018-05-31  9:44:20

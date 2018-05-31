@@ -71,6 +71,12 @@
                             </div>
                         </div>
                     </form>
+                    <br/>
+                    <p class="text-center">
+                        <a href="{{ route('fblogin') }}" class="btn btn-primary">Login with Facebook</a>
+                        <a href="{{ route('twlogin') }}" class="btn btn-info">Login with Twitter</a>
+                        <a href="{{ route('gologin') }}" class="btn btn-danger">Login with Google</a>
+                    </p>
                 </div>
             </div>
         </div>
