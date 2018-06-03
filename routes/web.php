@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', function(){
+    return view('product');
+});
 Route::get('/search','PostController@search');
 Route::delete('/deleteall','PostController@deleteAll');
 Route::get('/crud','CrudController@create')->name('ajax');
