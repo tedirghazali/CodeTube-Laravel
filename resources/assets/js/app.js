@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.swal = require('sweetalert');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

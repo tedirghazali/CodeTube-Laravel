@@ -1,7 +1,8 @@
 <template>
     <div class="row">
         <div class="col-md-8">
-            <div v-for="product in products" v-bind:key="product.id" class="card card-body mb-2 mr-2 product-item">
+            <div class="row">
+            <div v-for="product in products" v-bind:key="product.id" class="card card-body col-md-4">
                 <h4>{{ product.name }}</h4>
                 <p>{{ product.description }}</p>
                 <div class="row">
@@ -13,6 +14,7 @@
                     <button @click="deleteProduct(product.id)" class="btn btn-danger">Delete</button>
                 </p>
             </div>
+            </div>
         </div>
         <div class="col-md-4">
             <form>
@@ -22,18 +24,19 @@
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <input type="text" class="form-control" v-model="product.description">
+                    <textarea class="form-control" v-model="product.description"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Price</label>
-                    <input type="text" class="form-control" v-model="product.price">
+                    <input type="number" class="form-control" v-model="product.price">
                 </div>
                 <div class="form-group">
                     <label>Amount</label>
-                    <input type="text" class="form-control" v-model="product.amount">
+                    <input type="number" class="form-control" v-model="product.amount">
                 </div>
                 <button v-if="add" @click.prevent="addProduct()" class="btn btn-primary">Add Product</button>
                 <button v-if="edit" @click.prevent="updateProduct(product.id)" class="btn btn-warning">Edit Product</button>
+                <button @click.prevent="clearProduct()" class="btn btn-info">Clear</button>
             </form>
         </div>
     </div>
@@ -84,14 +87,16 @@ export default{
             })
             .then(res => res.json())
             .then(data => {
-                alert('Product added');
+                swal("Successful", "Product has been added", "success");
                 this.product.name = '';
                 this.product.description = '';
                 this.product.price = '';
                 this.product.amount = '';
                 this.viewProduct();
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                swal("Failed", "Product fail to add", "error");
+            });
         },
         editProduct(pro){
             this.add = false;
@@ -112,7 +117,7 @@ export default{
             })
             .then(res => res.json())
             .then(data => {
-                alert('Product updated');
+                swal("Successful", "Product has been updated", "success");
                 this.add = true;
                 this.edit = false;
                 this.product.name = '';
@@ -121,18 +126,43 @@ export default{
                 this.product.amount = '';
                 this.viewProduct();
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                swal("Failed", "Product fail to update", "error");
+            });
         },
         deleteProduct(id){
-            fetch(`api/products/${id}`, {
-                method: 'delete'
+            swal({
+                title: "Are you sure?",
+                text: "Product will be delete",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willdelete)=>{
+                if(willdelete){
+                    
+                    fetch(`api/products/${id}`, {
+                        method: 'delete'
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        swal("Successful", "Product has been deleted", "success");
+                        this.viewProduct();
+                    })
+                    .catch(err => {
+                        swal("Failed", "Product fail to delete", "error");
+                    });
+
+                }
             })
-            .then(res => res.json())
-            .then(data => {
-                alert('Product deleted');
-                this.viewProduct();
-            })
-            .catch(err => console.log(err));
+        },
+        clearProduct(){
+            this.add = true;
+            this.edit = false;
+            this.product.id = '';
+            this.product.name = '';
+            this.product.description = '';
+            this.product.price = '';
+            this.product.amount = '';
         }
     }
 
