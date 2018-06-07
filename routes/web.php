@@ -37,3 +37,4 @@ Route::get('/login/twitter','Auth\LoginController@redirectToTwitter')->name('twl
 Route::get('/login/twitter/callback', 'Auth\LoginController@handleTwitterCallback')->name('twcallback');
 Route::get('/login/google','Auth\LoginController@redirectToGoogle')->name('gologin');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback')->name('gocallback');
+Route::get('/checkout', 'CheckoutController@index')->name('checkout');

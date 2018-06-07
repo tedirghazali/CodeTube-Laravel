@@ -17,6 +17,7 @@ window.swal = require('sweetalert');
  */
 
 Vue.component('products', require('./components/ProductComponent.vue'));
+Vue.component('checkout', require('./components/CheckoutComponent.vue'));
 
 const app = new Vue({
     el: '#app'

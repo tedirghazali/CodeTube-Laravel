@@ -19,7 +19,7 @@
                                     <tr v-for="(cart, n) in carts" v-bind:key="cart.id">
                                         <td>{{cart.name}}</td>
                                         <td>Rp. {{cart.price}}</td>
-                                        <td width="100"><input type="text" readonly class="form-control" v-model="quantity"/></td>
+                                        <td width="100"><input type="text" readonly class="form-control" v-model="cart.amount"/></td>
                                         <td width="60">
                                             <button @click="removeCart(n)" class="btn btn-danger btn-sm"><i class="fa fa-close"></i></button>
                                         </td>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="modal-footer">
                             Total Price: Rp. {{totalprice}} &nbsp;
-                            <button data-dismiss="modal" class="btn btn-primary">Checkout</button>
+                            <a href="/checkout" class="btn btn-primary">Checkout</a>
                         </div>
                     </div>
                 </div>
@@ -47,6 +47,7 @@
                     <div class="col-md-6 text-right">Rp. {{ product.price }}</div>
                 </div>
                 <p class="text-right mt-2">
+                    <input type="number" v-model="quantity" style="width:60px"/>
                     <button @click="addCart(product)" class="btn btn-primary">Add to Cart</button>
                     <button @click="editProduct(product)" class="btn btn-warning">Edit</button>
                     <button @click="deleteProduct(product.id)" class="btn btn-danger">Delete</button>
@@ -142,7 +143,7 @@ export default{
                 this.carts = JSON.parse(localStorage.getItem('carts'));
                 this.badge = this.carts.length;
                 this.totalprice = this.carts.reduce((total, item)=>{
-                    return total + this.quantity * item.price;
+                    return total + item.amount * item.price;
                 }, 0);
             }
         },
@@ -150,7 +151,7 @@ export default{
             this.cartadd.id = pro.id;
             this.cartadd.name = pro.name;
             this.cartadd.price = pro.price;
-            this.cartadd.amount = pro.amount;
+            this.cartadd.amount = this.quantity;
             this.carts.push(this.cartadd);
             this.cartadd = {};
             this.storeCart();
