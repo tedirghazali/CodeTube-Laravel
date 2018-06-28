@@ -23,7 +23,7 @@
                         </table>
                         <div class="mt-2 text-right">
                             <p>Total Price: {{ total }}</p>
-                            <button class="btn btn-info">Checkout with Stripe</button>
+                            <a href="/checkout/stripe" class="btn btn-info">Checkout with Stripe</a>
                             <button class="btn btn-primary">Checkout with Paypal Braintree</button>
                         </div>
                     </div>
@@ -55,6 +55,7 @@ export default{
                 this.total = this.carts.reduce((total, item)=>{
                     return total + item.amount * item.price;
                 }, 0);
+                localStorage.setItem('total', this.total);
             }
         }
     }

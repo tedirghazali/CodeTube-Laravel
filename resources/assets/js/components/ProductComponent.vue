@@ -39,7 +39,8 @@
     <div class="row">
         <div class="col-md-8">
             <div class="row">
-            <div v-for="product in products" v-bind:key="product.id" class="card card-body col-md-6">
+            <div v-for="product in products" v-bind:key="product.id" class="col-md-6">
+                <div class="card card-body mb-4">
                 <h4>{{ product.name }}</h4>
                 <p>{{ product.description }}</p>
                 <div class="row">
@@ -47,11 +48,11 @@
                     <div class="col-md-6 text-right">Rp. {{ product.price }}</div>
                 </div>
                 <p class="text-right mt-2">
-                    <input type="number" v-model="quantity" style="width:60px"/>
-                    <button @click="addCart(product)" class="btn btn-primary">Add to Cart</button>
+                    <button @click="viewLink(product.id)" class="btn btn-primary">View</button>
                     <button @click="editProduct(product)" class="btn btn-warning">Edit</button>
                     <button @click="deleteProduct(product.id)" class="btn btn-danger">Delete</button>
                 </p>
+                </div>
             </div>
             </div>
             <div class="row mt-2">
@@ -272,6 +273,9 @@ export default{
             this.product.description = '';
             this.product.price = '';
             this.product.amount = '';
+        },
+        viewLink(mylink){
+            location.href = '/detail/'+mylink;
         }
     }
 

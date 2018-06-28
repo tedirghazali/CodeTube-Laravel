@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.swal = require('sweetalert');
+import StarRating from 'vue-star-rating'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -18,6 +19,8 @@ window.swal = require('sweetalert');
 
 Vue.component('products', require('./components/ProductComponent.vue'));
 Vue.component('checkout', require('./components/CheckoutComponent.vue'));
+Vue.component('detail', require('./components/DetailComponent.vue'));
+Vue.component('star-rating', StarRating);
 
 const app = new Vue({
     el: '#app'

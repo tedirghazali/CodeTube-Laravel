@@ -20,6 +20,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "sweetalert": "^2.1.0"
+        "sweetalert": "^2.1.0",
+        "vue-star-rating": "^1.6.0"
     }
 }

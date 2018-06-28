@@ -38,3 +38,6 @@ Route::get('/login/twitter/callback', 'Auth\LoginController@handleTwitterCallbac
 Route::get('/login/google','Auth\LoginController@redirectToGoogle')->name('gologin');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback')->name('gocallback');
 Route::get('/checkout', 'CheckoutController@index')->name('checkout');
+Route::get('/checkout/stripe', 'CheckoutController@stripe')->name('stripe');
+Route::post('/checkout/stripepayment', 'CheckoutController@stripePayment')->name('stripepayment');
+Route::get('/detail/{id}', 'DetailController@detail')->name('detail');
