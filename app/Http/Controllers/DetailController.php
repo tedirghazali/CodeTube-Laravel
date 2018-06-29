@@ -23,4 +23,8 @@ class DetailController extends Controller
             'rating' => $request->get('rating')
         ]));
     }
+
+    public function getrating($id){
+        return RatingResource::collection(Rating::all()->where('product_id', $id));
+    }
 }

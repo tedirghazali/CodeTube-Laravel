@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('products', 'ProductController');
 Route::post('/rating/new', 'DetailController@setrating')->name('setrating');
+Route::get('/rating/{id}', 'DetailController@getrating')->name('getrating');

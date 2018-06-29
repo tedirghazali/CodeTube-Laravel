@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.swal = require('sweetalert');
+window.$ = require('jquery');
 import StarRating from 'vue-star-rating'
 
 /**

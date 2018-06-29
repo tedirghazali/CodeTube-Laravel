@@ -60,22 +60,18 @@
           <h3 class="heading">Reviews</h3>
           <div class="review-rating">
               <div class="left-review">
-                  <div class="review-title">3.5</div>
+                  <div class="review-title">{{ totalrate }}</div>
                   <div class="review-star">
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star-half-o"></span>
-                      <span class="fa fa-star-o"></span>
+                      <star-rating :inline="true" :read-only="true" :show-rating="false" :star-size="20" v-model="totalrate" :increment="0.1" active-color="#000000"></star-rating>
                   </div>
-                  <div class="review-people"><i class="fa fa-user"></i> 8,337,200 total</div>
+                  <div class="review-people"><i class="fa fa-user"></i> {{ totaluser }} total</div>
               </div>
               <div class="right-review">
                   <div class="row-bar">
                       <div class="left-bar">5</div>
                       <div class="right-bar">
                           <div class="bar-container">
-                              <div class="bar-5" style="width: 60%;"></div>
+                              <div class="bar-5" style="width: 0%;"></div>
                           </div>
                       </div>
                   </div>
@@ -83,7 +79,7 @@
                       <div class="left-bar">4</div>
                       <div class="right-bar">
                           <div class="bar-container">
-                              <div class="bar-4" style="width: 30%;"></div>
+                              <div class="bar-4" style="width: 0%;"></div>
                           </div>
                       </div>
                   </div>
@@ -91,7 +87,7 @@
                       <div class="left-bar">3</div>
                       <div class="right-bar">
                           <div class="bar-container">
-                              <div class="bar-3" style="width: 10%;"></div>
+                              <div class="bar-3" style="width: 0%;"></div>
                           </div>
                       </div>
                   </div>
@@ -99,7 +95,7 @@
                       <div class="left-bar">2</div>
                       <div class="right-bar">
                           <div class="bar-container">
-                              <div class="bar-2" style="width: 4%;"></div>
+                              <div class="bar-2" style="width: 0%;"></div>
                           </div>
                       </div>
                   </div>
@@ -107,7 +103,7 @@
                       <div class="left-bar">1</div>
                       <div class="right-bar">
                           <div class="bar-container">
-                              <div class="bar-1" style="width: 15%;"></div>
+                              <div class="bar-1" style="width: 0%;"></div>
                           </div>
                       </div>
                   </div>
@@ -244,15 +240,65 @@ export default{
       badge: '0',
       quantity: 1,
       totalprice: '0',
-      rating: 0
+      rating: 0,
+      totalrate: 0,
+      totaluser: 0
     }
   },
   created(){
     this.viewProduct();
     this.viewOne();
     this.localStorageProduct();
+    this.getRating();
   },
   methods: {
+    getRating(){
+      var pathArray = location.pathname.split('/');
+      var pid = pathArray[2];
+      fetch(`/api/rating/${pid}`)
+      .then(res => res.json())
+      .then(res => {
+        var mydata = res.data;
+        this.totaluser = mydata.length;
+        var sum = 0;
+        for(var i = 0; i < mydata.length; i++){
+          sum += parseFloat(mydata[i]['rating']);
+        }
+        var avg = sum/mydata.length;
+        this.totalrate = parseFloat(avg.toFixed(1));
+        var bar1 = 0;
+        var bar2 = 0;
+        var bar3 = 0;
+        var bar4 = 0;
+        var bar5 = 0;
+        for(var j = 0; j < mydata.length; j++){
+          if(parseInt(mydata[j]['rating']) == '1'){
+            bar1 += 1;
+          }
+          if(parseInt(mydata[j]['rating']) == '2'){
+            bar2 += 1;
+          }
+          if(parseInt(mydata[j]['rating']) == '3'){
+            bar3 += 1;
+          }
+          if(parseInt(mydata[j]['rating']) == '4'){
+            bar4 += 1;
+          }
+          if(parseInt(mydata[j]['rating']) == '5'){
+            bar5 += 1;
+          }
+        }
+        $('.bar-1').css('width', bar1+'%');
+        $('.bar-2').css('width', bar2+'%');
+        $('.bar-3').css('width', bar3+'%');
+        $('.bar-4').css('width', bar4+'%');
+        $('.bar-5').css('width', bar5+'%');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    },
     setRating(){
         var pathArray = location.pathname.split('/');
         var uid = pathArray[2];
