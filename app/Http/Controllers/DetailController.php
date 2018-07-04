@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Rating;
+use App\Product;
 use App\Http\Resources\Rating as RatingResource;
 
 class DetailController extends Controller
@@ -26,5 +27,10 @@ class DetailController extends Controller
 
     public function getrating($id){
         return RatingResource::collection(Rating::all()->where('product_id', $id));
+    }
+
+    public function search(Request $request){
+        $search = $request->get('q');
+        return Product::where('name', 'like', '%'.$search.'%')->get();
     }
 }

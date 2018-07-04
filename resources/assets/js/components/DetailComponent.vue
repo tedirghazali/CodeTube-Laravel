@@ -36,6 +36,11 @@
   </div>
   <div class="row">
     <div class="col-md-9">
+      <div class="row">
+      <div class="col-md-4">
+        <img :src="product.image" width="100%"/>
+      </div>
+      <div class="col-md-8">
       <div class="card mb-2">
         <div class="card-body">
           <h3 class="card-title">{{ product.name }}</h3>
@@ -47,22 +52,21 @@
           </div>
         </div>
       </div>
+      </div>
+      </div>
       <div class="card">
         <div class="card-body">
           <h3 class="heading">User Rating</h3>
-          <div class="row">
-            <div class="col-md-6">
+          <div class="star-rating">
               <star-rating v-model="rating" :increment="0.5" text-class="custom-text"></star-rating>
-            </div>
-            <div class="col-md-6"></div>
+              <button @click="setRating()" class="btn btn-primary">Publish</button>
           </div>
-          <button @click="setRating" class="btn btn-primary">Publish</button>
           <h3 class="heading">Reviews</h3>
           <div class="review-rating">
               <div class="left-review">
                   <div class="review-title">{{ totalrate }}</div>
                   <div class="review-star">
-                      <star-rating :inline="true" :read-only="true" :show-rating="false" :star-size="20" v-model="totalrate" :increment="0.1" active-color="#000000"></star-rating>
+                      <star-rating :inline="true" :read-only="true" :show-rating="false" v-model="totalrate" :increment="0.1" :star-size="20" active-color="#000000"></star-rating>
                   </div>
                   <div class="review-people"><i class="fa fa-user"></i> {{ totaluser }} total</div>
               </div>
@@ -192,6 +196,8 @@
 .bar-1 {height: 18px; background-color: #ff6f31;}
 .star-rating{
     text-align: center;
+    margin:auto;
+    width: 45%;
 }
 .star-rating .fa:hover{
     color: orange;
@@ -207,14 +213,14 @@
     }
 }
 .custom-text {
-  font-weight: bold;
-  font-size: 1.9em;
-  border: 1px solid #cfcfcf;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
-  color: #999;
-  background: #fff;
+    font-weight: bold;
+    font-size: 1.9em;
+    border: 1px solid #cfcfcf;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    color: #999;
+    background: #fff;
 }
 </style>
 
@@ -228,7 +234,8 @@ export default{
         name:'',
         description:'',
         price:'',
-        amount:''
+        amount:'',
+        image:''
       },
       carts: [],
       cart: {
@@ -241,8 +248,8 @@ export default{
       quantity: 1,
       totalprice: '0',
       rating: 0,
-      totalrate: 0,
-      totaluser: 0
+      totaluser: 0,
+      totalrate: 0
     }
   },
   created(){
@@ -252,69 +259,6 @@ export default{
     this.getRating();
   },
   methods: {
-    getRating(){
-      var pathArray = location.pathname.split('/');
-      var pid = pathArray[2];
-      fetch(`/api/rating/${pid}`)
-      .then(res => res.json())
-      .then(res => {
-        var mydata = res.data;
-        this.totaluser = mydata.length;
-        var sum = 0;
-        for(var i = 0; i < mydata.length; i++){
-          sum += parseFloat(mydata[i]['rating']);
-        }
-        var avg = sum/mydata.length;
-        this.totalrate = parseFloat(avg.toFixed(1));
-        var bar1 = 0;
-        var bar2 = 0;
-        var bar3 = 0;
-        var bar4 = 0;
-        var bar5 = 0;
-        for(var j = 0; j < mydata.length; j++){
-          if(parseInt(mydata[j]['rating']) == '1'){
-            bar1 += 1;
-          }
-          if(parseInt(mydata[j]['rating']) == '2'){
-            bar2 += 1;
-          }
-          if(parseInt(mydata[j]['rating']) == '3'){
-            bar3 += 1;
-          }
-          if(parseInt(mydata[j]['rating']) == '4'){
-            bar4 += 1;
-          }
-          if(parseInt(mydata[j]['rating']) == '5'){
-            bar5 += 1;
-          }
-        }
-        $('.bar-1').css('width', bar1+'%');
-        $('.bar-2').css('width', bar2+'%');
-        $('.bar-3').css('width', bar3+'%');
-        $('.bar-4').css('width', bar4+'%');
-        $('.bar-5').css('width', bar5+'%');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    },
-    setRating(){
-        var pathArray = location.pathname.split('/');
-        var uid = pathArray[2];
-        fetch('/api/rating/new', {
-          method: 'post',
-          body: JSON.stringify({ product:uid, user:'3', rating:this.rating }),
-          headers: {
-            'content-type': 'application/json'
-          }
-        }).then(res => res.json())
-        .then(data => {
-          swal('Thank you!', 'Terima kasih atas rating and', 'success');
-        }).catch(err => {
-          swal('Failed', 'gagal load data', 'error');
-        });
-    },
     viewProduct(){
       fetch('/api/products')
       .then(res => res.json())
@@ -334,6 +278,7 @@ export default{
         this.product.description = res.data.description;
         this.product.price = res.data.price;
         this.product.amount = res.data.amount;
+        this.product.image = res.data.image;
       })
       .catch(err => console.log(err));
     },
@@ -366,8 +311,75 @@ export default{
     },
     viewLink(mylink){
       location.href = '/detail/'+mylink;
+    },
+    setRating() {
+      var pathArray = location.pathname.split('/');
+      var uid = pathArray[2];
+      fetch('/api/rating/new', {
+        method: 'post',
+        body: JSON.stringify({ product:uid, user:'5', rating:this.rating }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json())
+      .then(data => {
+        swal('Thank you!', 'Terima kasih telah memberi rating', 'success');
+      }).catch(err => {
+        swal('Failed', 'Anda gagal memberikan pernilaian', 'error');
+      });
+    },
+    getRating(){
+      var pathArray = location.pathname.split('/');
+      var uid = pathArray[2];
+      fetch(`/api/rating/${uid}`)
+      .then(res => res.json())
+      .then(res => {
+        var mydata = res.data;
+        this.totaluser = mydata.length;
+        var sum = 0;
+        for(var i = 0; i < mydata.length; i++){
+          sum += parseFloat(mydata[i]['rating']);
+        }
+        var avg = sum/mydata.length
+        this.totalrate = parseFloat(avg.toFixed(1));
+        var bar1 = 0;
+        var bar2 = 0;
+        var bar3 = 0;
+        var bar4 = 0;
+        var bar5 = 0;
+        for(var j = 0; j < mydata.length; j++){
+          if(parseInt(mydata[j]['rating']) == '1'){
+            bar1 += 1
+          }
+          if(parseInt(mydata[j]['rating']) == '2'){
+            bar2 += 1
+          }
+          if(parseInt(mydata[j]['rating']) == '3'){
+            bar3 += 1
+          }
+          if(parseInt(mydata[j]['rating']) == '4'){
+            bar4 += 1
+          }
+          if(parseInt(mydata[j]['rating']) == '5'){
+            bar5 += 1
+          }
+        }
+        $('.bar-5').css('width', bar5+'%');
+        $('.bar-4').css('width', bar4+'%');
+        $('.bar-3').css('width', bar3+'%');
+        $('.bar-2').css('width', bar2+'%');
+        $('.bar-1').css('width', bar1+'%');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    },
+    showCurrentRating: function(rating) {
+      this.currentRating = (rating === 0) ? this.currentSelectedRating : "Click to select " + rating + " stars"
+    },
+    setCurrentSelectedRating: function(rating) {
+      this.currentSelectedRating = "You have Selected: " + rating + " stars";
     }
   }
 }
 </script>
-

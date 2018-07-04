@@ -1,7 +1,15 @@
 <template>
     <div id="myproduct">
     <div class="row mt-2 mb-2">
-        <div class="col-md-10">&nbsp;</div>
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-8">
+            <div class="input-group">
+                <input type="text" v-model="search" class="form-control">
+                <div class="input-group-prepend">
+                    <button @click.prevent="searchProduct()" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
         <div class="col-md-2 text-right">
             <button class="btn btn-primary" data-toggle="modal" data-target="#cart">
                 <i class="fa fa-shopping-cart"></i> <span class="badge badge-light">{{badge}}</span>
@@ -36,27 +44,54 @@
             </div>
         </div>
     </div>
+    <p><br/></p>
     <div class="row">
         <div class="col-md-8">
+            <div v-if="showsearch==true">
+                <div class="row">
+                    <div v-for="cari in caris" v-bind:key="cari.id" class="col-md-6">
+                        <div class="card mb-4">
+                            <img :src="cari.image" :alt="cari.name" class="card-img-top">
+                            <div class="card-body">
+                                <h4>{{ cari.name }}</h4>
+                                <p>{{ cari.description }}</p>
+                                <div class="row">
+                                    <div class="col-md-6">Stock {{ cari.amount }}</div>
+                                    <div class="col-md-6 text-right">Rp. {{ cari.price }}</div>
+                                </div>
+                                <p class="text-right mt-2">
+                                    <button @click="viewLink(cari.id)" class="btn btn-primary">View</button>
+                                    <button @click="editProduct(cari)" class="btn btn-warning">Edit</button>
+                                    <button @click="deleteProduct(cari.id)" class="btn btn-danger">Delete</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="showsearch==false">
             <div class="row">
             <div v-for="product in products" v-bind:key="product.id" class="col-md-6">
-                <div class="card card-body mb-4">
-                <h4>{{ product.name }}</h4>
-                <p>{{ product.description }}</p>
-                <div class="row">
-                    <div class="col-md-6">Stock {{ product.amount }}</div>
-                    <div class="col-md-6 text-right">Rp. {{ product.price }}</div>
-                </div>
-                <p class="text-right mt-2">
-                    <button @click="viewLink(product.id)" class="btn btn-primary">View</button>
-                    <button @click="editProduct(product)" class="btn btn-warning">Edit</button>
-                    <button @click="deleteProduct(product.id)" class="btn btn-danger">Delete</button>
-                </p>
+                <div class="card mb-4">
+                    <img class="card-img-top" :src="product.image" :alt="product.name"/>
+                    <div class="card-body">
+                        <h4>{{ product.name }}</h4>
+                        <p>{{ product.description }}</p>
+                        <div class="row">
+                            <div class="col-md-6">Stock {{ product.amount }}</div>
+                            <div class="col-md-6 text-right">Rp. {{ product.price }}</div>
+                        </div>
+                        <p class="text-right mt-2">
+                            <button @click="viewLink(product.id)" class="btn btn-primary">View</button>
+                            <button @click="editProduct(product)" class="btn btn-warning">Edit</button>
+                            <button @click="deleteProduct(product.id)" class="btn btn-danger">Delete</button>
+                        </p>
+                    </div>
                 </div>
             </div>
             </div>
             <div class="row mt-2">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <nav>
                         <ul class="pagination">
                             <li v-bind:class="{disabled:!pagination.first_link}" class="page-item"><a href="#" @click="viewProduct(pagination.first_link)" class="page-link">&laquo;</a></li>
@@ -67,10 +102,11 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     Page: {{pagination.from_page}} - {{pagination.to_page}}
                     Total: {{pagination.total_page}}
                 </div>
+            </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -131,7 +167,10 @@ export default{
             },
             badge: '0',
             quantity: '1',
-            totalprice: '0'
+            totalprice: '0',
+            search: '',
+            showsearch: false,
+            caris: []
         }
     },
     created(){
@@ -139,6 +178,18 @@ export default{
         this.viewCart();
     },
     methods: {
+        searchProduct(){
+            fetch('/api/product/search?q='+this.search)
+            .then(res => res.json())
+            .then(res => {
+                this.caris = res;
+                this.search = '';
+                this.showsearch = true;
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        },
         viewCart(){
             if(localStorage.getItem('carts')){
                 this.carts = JSON.parse(localStorage.getItem('carts'));
