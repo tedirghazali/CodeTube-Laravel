@@ -48239,7 +48239,7 @@ var render = function() {
                     _c("div", { staticClass: "card mb-4" }, [
                       _c("img", {
                         staticClass: "card-img-top",
-                        attrs: { src: cari.image, alt: cari.id }
+                        attrs: { src: cari.image, alt: cari.name }
                       }),
                       _vm._v(" "),
                       _c("div", { staticClass: "card-body" }, [
@@ -48318,7 +48318,7 @@ var render = function() {
                       _c("div", { staticClass: "card mb-4" }, [
                         _c("img", {
                           staticClass: "card-img-top",
-                          attrs: { src: product.image, alt: product.title }
+                          attrs: { src: product.image, alt: product.name }
                         }),
                         _vm._v(" "),
                         _c("div", { staticClass: "card-body" }, [

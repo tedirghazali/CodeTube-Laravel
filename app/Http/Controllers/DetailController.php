@@ -31,6 +31,6 @@ class DetailController extends Controller
 
     public function search(Request $request){
         $search = $request->get('q');
-        return Product::where('name', 'like', '%'.$search.'%')->get();
+        return Product::search($search)->get();
     }
 }
